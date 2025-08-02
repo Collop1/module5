@@ -1,6 +1,6 @@
 const express = require('express'); 
 const router = express.Router();
-const calculatorController = require('../controllers/calculatorController');
+const calculatorController = require('../controllers/calculatorController.js');
 
 // Route for adding two numbers 
 router.get('/add', calculatorController.add);
