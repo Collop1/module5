@@ -1,6 +1,5 @@
 const Calculator = require('../libraries/Calculator');
 const Logger = require('../libraries/logger');
-const { v4: uuidv4 } = require('uuid');
 
 // Initialize logger
 const logger = new Logger({
@@ -9,7 +8,6 @@ const logger = new Logger({
 
 // Route for adding two numbers
 const add = (req, res) => {
-  const requestId = uuidv4();
   const callerId = Logger.generateCallerId(req);
   let myCalc = new Calculator();
   let number1 = parseInt(req.query.num1);
@@ -29,33 +27,57 @@ const add = (req, res) => {
 
 // Route for subtracting two numbers 
 const subtract = (req, res) => {
+  const callerId = Logger.generateCallerId(req);
   let myCalc = new Calculator();
   let number1 = parseInt(req.query.num1);
   let number2 = parseInt(req.query.num2);
   let difference = myCalc.sub(number1, number2);
-  console.log(difference);
+  
+  Logger.logOperation(
+    callerId,
+    'subtract',
+    difference,
+    { num1: number1, num2: number2 }
+  );
+
   res.status(200);
   res.json({ result: difference });
 };
 
 // Route for multiplying two numbers 
 const multiply = (req, res) => {
+  const callerId = Logger.generateCallerId(req);
   let myCalc = new Calculator();
   let number1 = parseInt(req.query.num1);
   let number2 = parseInt(req.query.num2);
   let product = myCalc.mul(number1, number2);
-  console.log(product);
+  
+  Logger.logOperation(
+    callerId,
+    'multiply',
+    product,
+    { num1: number1, num2: number2 }
+  );
+
   res.status(200);
   res.json({ result: product });
 };
 
 // Route for dividing two numbers 
 const divide = (req, res) => {
+  const callerId = Logger.generateCallerId(req);
   let myCalc = new Calculator();
   let number1 = parseInt(req.query.num1);
   let number2 = parseInt(req.query.num2);
   let quotient = myCalc.div(number1, number2);
-  console.log(quotient);
+  
+  Logger.logOperation(
+    callerId,
+    'divide',
+    quotient,
+    { num1: number1, num2: number2 }
+  );
+
   res.status(200);
   res.json({ result: quotient });
 };
